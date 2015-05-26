@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Storage\Scripts\BlockFaceMain.cs" />
      <Compile Include="Assets\Storage\Scripts\CustomGravity.cs" />
      <Compile Include="Assets\Storage\Scripts\PlayerMain.cs" />
  <Reference Include="UnityEngine.UI">
