@@ -31,6 +31,10 @@ public class PlayerMain : MonoBehaviour {
         {
             customGravity.Target = obj;
             AI_LastTarget = obj;
+            if (direction == Vector3.right || direction == Vector3.left)
+                obj.GetComponent<BlockFaceMain>().ChangeFix(true);
+            else
+                obj.GetComponent<BlockFaceMain>().ChangeFix(false);
         }
     }
 

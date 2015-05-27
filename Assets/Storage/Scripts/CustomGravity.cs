@@ -21,20 +21,15 @@ public class CustomGravity : MonoBehaviour {
 	void Start () {
         this.rigidbody = this.GetComponent<Rigidbody>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        /*RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 10f))
-            target = hit.collider.gameObject;*/
-	}
 
     void FixedUpdate()
     {
         if (target != null)
         {
             Vector3 target_face = target.transform.position + target.transform.TransformDirection(Vector3.back * transform.localScale.z)/2;
-            Vector3 newRot = target.transform.rotation.eulerAngles + new Vector3(-90, 0, 0);
+            Vector3 newRot;
+            newRot = target.transform.rotation.eulerAngles + new Vector3(-90, 0, 0);
+            //newRot = target.transform.rotation.eulerAngles + new Vector3(90, -90, 180);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(fixR(newRot.x * Mathf.Sign(target.transform.localScale.x)), fixR(newRot.y * Mathf.Sign(target.transform.localScale.y)), fixR(newRot.z * Mathf.Sign(target.transform.localScale.z))), 0.2f);
             transform.position = Vector3.Lerp(transform.position, target_face, 0.2f);
         }
