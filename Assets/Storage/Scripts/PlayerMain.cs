@@ -84,7 +84,8 @@ public class PlayerMain : MonoBehaviour {
         Vector3 dir = Vector3.forward;
         if (Direction == Vector3.back || Direction == Vector3.left)
             dir = Vector3.back;
-
+        Debug.DrawRay(transform.position, transform.TransformDirection(dir), Color.green, .5f);
+        Debug.DrawRay(transform.position + transform.TransformDirection(dir), transform.TransformDirection(Vector3.down), Color.red, .5f);
         if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(Direction), out hit, 1f))
         {
             if (hit.collider.gameObject != AI_LastTarget)
