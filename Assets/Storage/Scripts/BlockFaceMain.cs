@@ -15,6 +15,6 @@ public class BlockFaceMain : MonoBehaviour {
 
     void OnMouseDown()
     {
-        PlayerMain.reference.SetTarget(gameObject);
+
     }
 }
