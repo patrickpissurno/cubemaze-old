@@ -39,7 +39,7 @@ public class PlayerMain : MonoBehaviour {
         bool validTarget = false;
         RaycastHit hit;
 
-        if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1f))
+        if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(direction), out hit, 1f))
         {
             if (hit.collider.gameObject != AI_LastTarget)
             {
