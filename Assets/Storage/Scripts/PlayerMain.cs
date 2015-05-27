@@ -8,6 +8,7 @@ public class PlayerMain : MonoBehaviour {
     private CustomGravity customGravity;
 
     private Vector3 direction = Vector3.forward;
+    private GameObject AI_LastTarget;
 
     void Awake()
     {
@@ -26,15 +27,36 @@ public class PlayerMain : MonoBehaviour {
 
     public void SetTarget(GameObject obj)
     {
-        customGravity.Target = obj;
+        if (obj != AI_LastTarget)
+        {
+            customGravity.Target = obj;
+            AI_LastTarget = obj;
+        }
     }
 
     IEnumerator AI()
     {
+        bool validTarget = false;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + transform.TransformDirection(direction), transform.TransformDirection(Vector3.down), out hit, 1f))
-            SetTarget(hit.collider.gameObject);
-        else
+
+        if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1f))
+        {
+            if (hit.collider.gameObject != AI_LastTarget)
+            {
+                validTarget = true;
+                SetTarget(hit.collider.gameObject);
+            }
+        }
+        if (!validTarget && Physics.Raycast(transform.position + transform.TransformDirection(direction), transform.TransformDirection(Vector3.down), out hit, 1f))
+        {
+            if (hit.collider.gameObject != AI_LastTarget)
+            {
+                validTarget = true;
+                SetTarget(hit.collider.gameObject);
+            }
+        }
+        
+        if(!validTarget)
         {
             string next = "";
             #region NextCalc
