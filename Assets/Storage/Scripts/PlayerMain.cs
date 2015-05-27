@@ -7,8 +7,26 @@ public class PlayerMain : MonoBehaviour {
     private new Rigidbody rigidbody;
     private CustomGravity customGravity;
 
-    private Vector3 direction = Vector3.forward;
+    private Vector3 direction = Vector3.right;
     private GameObject AI_LastTarget;
+
+    #region Get/Set
+    public Vector3 Direction
+    {
+        get
+        {
+            return direction;
+        }
+        set
+        {
+            direction = value;
+            if (direction == Vector3.left || direction == Vector3.right)
+                transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, 90, transform.rotation.eulerAngles.z));
+            else
+                transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z));
+        }
+    }
+    #endregion
 
     void Awake()
     {
@@ -16,34 +34,58 @@ public class PlayerMain : MonoBehaviour {
     }
 
 	void Start () {
+        Direction = Vector3.forward;
         rigidbody = GetComponent<Rigidbody>();
         customGravity = GetComponent<CustomGravity>();
         StartCoroutine(AI());
 	}
 
-    void Update()
-    {
-    }
-
     public void SetTarget(GameObject obj)
     {
         if (obj != AI_LastTarget)
         {
-            customGravity.Target = obj;
-            AI_LastTarget = obj;
-            if (direction == Vector3.right || direction == Vector3.left)
+            BlockFaceMain bf = obj.GetComponent<BlockFaceMain>();
+            if (bf != null)
+            {
+                switch (bf.ChangeDirection.ToLower())
+                {
+                    case "left":
+                        Direction = Vector3.left;
+                        break;
+                    case "right":
+                        Direction = Vector3.right;
+                        break;
+                    case "forward":
+                        Direction = Vector3.forward;
+                        break;
+                    case "back":
+                    case "backwards":
+                        Direction = Vector3.back;
+                        break;
+                }
+            }
+
+            if (Direction == Vector3.right || Direction == Vector3.left)
                 obj.GetComponent<BlockFaceMain>().ChangeFix(true);
             else
                 obj.GetComponent<BlockFaceMain>().ChangeFix(false);
+
+            customGravity.Target = obj;
+            AI_LastTarget = obj;
         }
     }
 
+    #region AI Code
     IEnumerator AI()
     {
         bool validTarget = false;
         RaycastHit hit;
 
-        if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(direction), out hit, 1f))
+        Vector3 dir = Vector3.forward;
+        if (Direction == Vector3.back || Direction == Vector3.left)
+            dir = Vector3.back;
+
+        if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(Direction), out hit, 1f))
         {
             if (hit.collider.gameObject != AI_LastTarget)
             {
@@ -51,7 +93,7 @@ public class PlayerMain : MonoBehaviour {
                 SetTarget(hit.collider.gameObject);
             }
         }
-        if (!validTarget && Physics.Raycast(transform.position + transform.TransformDirection(direction), transform.TransformDirection(Vector3.down), out hit, 1f))
+        if (!validTarget && Physics.Raycast(transform.position + transform.TransformDirection(dir), transform.TransformDirection(Vector3.down), out hit, 1f))
         {
             if (hit.collider.gameObject != AI_LastTarget)
             {
@@ -64,7 +106,7 @@ public class PlayerMain : MonoBehaviour {
         {
             string next = "";
             #region NextCalc
-            if (direction == Vector3.forward)
+            if (Direction == Vector3.forward)
             {
                 switch (customGravity.target.name)
                 {
@@ -82,7 +124,7 @@ public class PlayerMain : MonoBehaviour {
                         break;
                 }
             }
-            else if (direction == Vector3.back)
+            else if (Direction == Vector3.back)
             {
                 switch (customGravity.target.name)
                 {
@@ -100,7 +142,7 @@ public class PlayerMain : MonoBehaviour {
                         break;
                 }
             }
-            else if (direction == Vector3.right)
+            else if (Direction == Vector3.right)
             {
                 switch (customGravity.target.name)
                 {
@@ -118,7 +160,7 @@ public class PlayerMain : MonoBehaviour {
                         break;
                 }
             }
-            else if (direction == Vector3.left)
+            else if (Direction == Vector3.left)
             {
                 switch (customGravity.target.name)
                 {
@@ -147,4 +189,5 @@ public class PlayerMain : MonoBehaviour {
         yield return new WaitForSeconds(.5f);
         StartCoroutine(AI());
     }
+    #endregion
 }
