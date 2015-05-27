@@ -4,7 +4,10 @@ public class BlockFaceMain : MonoBehaviour {
 
     private Vector3 rotation;
     private Vector3 scale;
+
     public string changeDirection = "none";
+
+    #region Get/Set
     public string ChangeDirection
     {
         get
@@ -38,6 +41,7 @@ public class BlockFaceMain : MonoBehaviour {
             }
         }
     }
+    #endregion
 
     private MeshRenderer meshRenderer;
     private static Texture2D[] textures;
@@ -92,24 +96,29 @@ public class BlockFaceMain : MonoBehaviour {
 
     void OnMouseDown()
     {
-        switch (ChangeDirection.ToLower())
+        if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), .5f))
         {
-            case "forward":
-                ChangeDirection = "Right";
-                break;
-            case "right":
-                ChangeDirection = "Backwards";
-                break;
-            case "backwards":
-            case "back":
-                ChangeDirection = "Left";
-                break;
-            case "left":
-                ChangeDirection = "None";
-                break;
-            case "none":
-                ChangeDirection = "Forward";
-                break;
+            this.transform.rotation = Quaternion.Euler(this.rotation);
+            this.transform.localScale = this.scale;
+            switch (ChangeDirection.ToLower())
+            {
+                case "forward":
+                    ChangeDirection = "Right";
+                    break;
+                case "right":
+                    ChangeDirection = "Backwards";
+                    break;
+                case "backwards":
+                case "back":
+                    ChangeDirection = "Left";
+                    break;
+                case "left":
+                    ChangeDirection = "None";
+                    break;
+                case "none":
+                    ChangeDirection = "Forward";
+                    break;
+            }
         }
     }
 }
