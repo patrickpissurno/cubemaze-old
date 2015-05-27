@@ -3,18 +3,20 @@ using System.Collections;
 
 public class BlockFaceMain : MonoBehaviour {
 
-    private Quaternion rotation;
+    private Vector3 rotation;
     private Vector3 scale;
 
-    void Start()
+    void Awake()
     {
-        this.rotation = this.transform.rotation;
+        //Debug.LogError(this.transform.rotation.eulerAngles + "  |  " + this.transform.localScale);
+
+        this.rotation = this.transform.rotation.eulerAngles;
         this.scale = this.transform.localScale;
     }
 
     public void ChangeFix(bool fix)
     {
-        this.transform.rotation = this.rotation;
+        this.transform.rotation = Quaternion.Euler(this.rotation);
         this.transform.localScale = this.scale;
         if (fix)
         {
@@ -22,7 +24,7 @@ public class BlockFaceMain : MonoBehaviour {
             {
                 case "U":
                 case "D":
-                    this.transform.Rotate(new Vector3(0, 90, 0));
+                    this.transform.rotation = Quaternion.Euler(new Vector3(this.transform.rotation.eulerAngles.x, 90, this.transform.rotation.eulerAngles.z));
                     break;
                 case "R":
                     this.transform.rotation = Quaternion.Euler(new Vector3(0, 270, 180));
