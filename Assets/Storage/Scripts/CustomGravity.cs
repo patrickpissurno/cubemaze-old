@@ -3,8 +3,6 @@ using System.Collections;
 
 public class CustomGravity : MonoBehaviour {
 
-    private new Rigidbody rigidbody;
-
     public GameObject target;
     public GameObject Target
     {
@@ -17,10 +15,6 @@ public class CustomGravity : MonoBehaviour {
             target = value;
         }
     }
-
-	void Start () {
-        this.rigidbody = this.GetComponent<Rigidbody>();
-	}
 
     void FixedUpdate()
     {

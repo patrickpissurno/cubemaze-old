@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerMain : MonoBehaviour {
 
     public static PlayerMain reference;
-    private new Rigidbody rigidbody;
     private CustomGravity customGravity;
 
     private Vector3 direction = Vector3.right;
@@ -35,7 +34,6 @@ public class PlayerMain : MonoBehaviour {
 
 	void Start () {
         Direction = Vector3.forward;
-        rigidbody = GetComponent<Rigidbody>();
         customGravity = GetComponent<CustomGravity>();
         StartCoroutine(AI());
 	}

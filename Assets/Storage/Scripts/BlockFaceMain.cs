@@ -96,28 +96,31 @@ public class BlockFaceMain : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), .5f))
+        if (gameObject.name == "U" || gameObject.name == "D")
         {
-            this.transform.rotation = Quaternion.Euler(this.rotation);
-            this.transform.localScale = this.scale;
-            switch (ChangeDirection.ToLower())
+            if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), .5f))
             {
-                case "forward":
-                    ChangeDirection = "Right";
-                    break;
-                case "right":
-                    ChangeDirection = "Backwards";
-                    break;
-                case "backwards":
-                case "back":
-                    ChangeDirection = "Left";
-                    break;
-                case "left":
-                    ChangeDirection = "None";
-                    break;
-                case "none":
-                    ChangeDirection = "Forward";
-                    break;
+                this.transform.rotation = Quaternion.Euler(this.rotation);
+                this.transform.localScale = this.scale;
+                switch (ChangeDirection.ToLower())
+                {
+                    case "forward":
+                        ChangeDirection = "Right";
+                        break;
+                    case "right":
+                        ChangeDirection = "Backwards";
+                        break;
+                    case "backwards":
+                    case "back":
+                        ChangeDirection = "Left";
+                        break;
+                    case "left":
+                        ChangeDirection = "None";
+                        break;
+                    case "none":
+                        ChangeDirection = "Forward";
+                        break;
+                }
             }
         }
     }
