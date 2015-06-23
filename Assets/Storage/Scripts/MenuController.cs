@@ -11,14 +11,12 @@ public class MenuController: MonoBehaviour {
 	private GameObject Voltar;
 	// Use this for initialization
 	void Start () {
-		if(Application.loadedLevel.Equals(0))
-			Play = GameObject.Find("Tplay");
-		if(Application.loadedLevel.Equals(0))
-			opcoes = GameObject.Find("Top");
-		if(Application.loadedLevel.Equals(0))
-			creditos = GameObject.Find("Tcred");
-		if(Application.loadedLevel.Equals(0))
-			instrucoes = GameObject.Find("Tinstr");
+		if(Application.loadedLevel.Equals(0)){
+				Play = GameObject.Find("Tplay");
+				opcoes = GameObject.Find("Top");
+				creditos = GameObject.Find("Tcred");
+				instrucoes = GameObject.Find("Tinstr");
+			}
 		if(Application.loadedLevel != 0 && Application.loadedLevel != 1 )Voltar = GameObject.Find("voltar");
 	}
 	// Update is called once per frame
