@@ -47,9 +47,21 @@ public class PlayerMain : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col)
 	{
-		if(col.gameObject.name.Equals("Enemy"))
-		{
-			GameOver();
+		switch(col.gameObject.tag.ToLowerInvariant())
+        {
+            case "enemy":
+			    GameOver();
+                break;
+            case "solid":
+                if (Direction == Vector3.left)
+                    Direction = Vector3.right;
+                else if (Direction == Vector3.right)
+                    Direction = Vector3.left;
+                else if (Direction == Vector3.forward)
+                    Direction = Vector3.back;
+                else if (Direction == Vector3.back)
+                    Direction = Vector3.forward;
+                break;
 		}
 	}
 
@@ -88,6 +100,17 @@ public class PlayerMain : MonoBehaviour {
 
 			customGravity.Target = obj;
 			AI_LastTarget = obj;
+		} else
+		{
+			if(Item.item == false)
+			{
+				if(Direction == Vector3.left)Direction = Vector3.right;
+				else if(Direction == Vector3.right)Direction = Vector3.left;
+				else if(Direction == Vector3.forward)Direction = Vector3.back;
+				else if(Direction == Vector3.back)Direction = Vector3.forward;
+			}
+			else
+				Application.LoadLevel("Menu");
 		}
     }
 
