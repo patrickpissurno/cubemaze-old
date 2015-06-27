@@ -59,6 +59,23 @@ public class EnemyScoutMain : MonoBehaviour {
 		customGravity = GetComponent<CustomGravity>();
 		StartCoroutine(AI());
 	}
+
+    void OnCollisionEnter(Collision col)
+    {
+        switch (col.gameObject.tag.ToLowerInvariant())
+        {
+            case "solid":
+                if (Direction == Vector3.left)
+                    Direction = Vector3.right;
+                else if (Direction == Vector3.right)
+                    Direction = Vector3.left;
+                else if (Direction == Vector3.forward)
+                    Direction = Vector3.back;
+                else if (Direction == Vector3.back)
+                    Direction = Vector3.forward;
+                break;
+        }
+    }
 	
 	public void SetTarget(GameObject obj)
 	{
@@ -120,19 +137,25 @@ public class EnemyScoutMain : MonoBehaviour {
 		Debug.DrawRay(transform.position + transform.TransformDirection(dir), transform.TransformDirection(Vector3.down), Color.red, .5f);
 		if (!validTarget && Physics.Raycast(transform.position, transform.TransformDirection(Direction), out hit, 1f))
 		{
-			if (hit.collider.gameObject != AI_LastTarget)
-			{
-				validTarget = true;
-				SetTarget(hit.collider.gameObject);
-			}
+            if (hit.transform.tag.ToLowerInvariant() == "terrain" || hit.transform.tag.ToLowerInvariant() == "ground")
+            {
+                if (hit.collider.gameObject != AI_LastTarget)
+                {
+                    validTarget = true;
+                    SetTarget(hit.collider.gameObject);
+                }
+            }
 		}
 		if (!validTarget && Physics.Raycast(transform.position + transform.TransformDirection(dir), transform.TransformDirection(Vector3.down), out hit, 1f))
 		{
-			if (hit.collider.gameObject != AI_LastTarget)
-			{
-				validTarget = true;
-				SetTarget(hit.collider.gameObject);
-			}
+            if (hit.transform.tag.ToLowerInvariant() == "terrain" || hit.transform.tag.ToLowerInvariant() == "ground")
+            {
+                if (hit.collider.gameObject != AI_LastTarget)
+                {
+                    validTarget = true;
+                    SetTarget(hit.collider.gameObject);
+                }
+            }
 		}
 		
 		if(!validTarget)
