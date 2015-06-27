@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{41E56695-12B5-D910-090D-B1C04F867C98}</ProjectGuid>
+	<ProjectGuid>{A051E496-F198-1C14-F124-780AF1623F5A}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -49,6 +49,7 @@
      <Compile Include="Assets\Storage\Scripts\BlockFaceMain.cs" />
      <Compile Include="Assets\Storage\Scripts\CustomGravity.cs" />
      <Compile Include="Assets\Storage\Scripts\DoorBehavior.cs" />
+     <Compile Include="Assets\Storage\Scripts\EnemyScoutMain.cs" />
      <Compile Include="Assets\Storage\Scripts\Item.cs" />
      <Compile Include="Assets\Storage\Scripts\MenuController.cs" />
      <Compile Include="Assets\Storage\Scripts\PlayerMain.cs" />

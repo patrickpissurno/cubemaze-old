@@ -4,7 +4,7 @@ public class BlockFaceMain : MonoBehaviour {
 
     private Vector3 rotation;
     private Vector3 scale;
-
+	public bool changer = true;
     public string changeDirection = "none";
 
     #region Get/Set
@@ -56,11 +56,15 @@ public class BlockFaceMain : MonoBehaviour {
 
     void Start()
     {
-        this.meshRenderer = this.GetComponent<MeshRenderer>();
+        if(this.meshRenderer == null)
+        	this.meshRenderer = this.GetComponent<MeshRenderer>();
     }
 
     public void ChangeFix(bool fix)
     {
+		if(this.meshRenderer == null)
+			this.meshRenderer = this.GetComponent<MeshRenderer>();
+			
         this.transform.rotation = Quaternion.Euler(this.rotation);
         this.transform.localScale = this.scale;
         if (fix)
@@ -96,7 +100,7 @@ public class BlockFaceMain : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (gameObject.name == "U" || gameObject.name == "D")
+        if (gameObject.name == "U" && changer || gameObject.name == "D" && changer)
         {
             if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), .5f))
             {
@@ -124,4 +128,17 @@ public class BlockFaceMain : MonoBehaviour {
             }
         }
     }
+	
+	public void ChangeCustom(string direction)
+	{
+		if (gameObject.name == "U" && changer || gameObject.name == "D" && changer)
+		{
+			if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), .5f))
+			{
+				this.transform.rotation = Quaternion.Euler(this.rotation);
+				this.transform.localScale = this.scale;
+				ChangeDirection = direction;
+			}
+		}
+	}
 }

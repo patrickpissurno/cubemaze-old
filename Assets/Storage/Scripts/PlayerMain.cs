@@ -33,55 +33,61 @@ public class PlayerMain : MonoBehaviour {
         reference = this;
     }
 
-
 	void Start () {
 		playerClone = GameObject.Find("Player_Rotation");
         Direction = Vector3.forward;
         customGravity = GetComponent<CustomGravity>();
         StartCoroutine(AI());
 	}
+	
+	void GameOver() 
+	{
+		Application.LoadLevel ("GameOver");
+	}
+
+	void OnCollisionEnter (Collision col)
+	{
+		if(col.gameObject.name.Equals("Enemy"))
+		{
+			GameOver();
+		}
+	}
 
     public void SetTarget(GameObject obj)
     {
-        if (obj != AI_LastTarget && obj.GetComponent<BlockFaceMain> () != null) {
+        if (obj != AI_LastTarget && obj.GetComponent<BlockFaceMain> () != null)
+		{
 			BlockFaceMain bf = obj.GetComponent<BlockFaceMain> ();
-			if (bf != null) {
-				switch (bf.ChangeDirection.ToLower ()) {
-				case "left":
-					Direction = Vector3.left;
-					
-					break;
-				case "right":
-					Direction = Vector3.right;
-					
-					break;
-				case "forward":
-					Direction = Vector3.forward;
-					
-					break;
-				case "back":
-				case "backwards":
-					Direction = Vector3.back;
-					
-					break;
+			if (bf != null)
+			{
+				switch (bf.ChangeDirection.ToLower ())
+				{
+					case "left":
+						Direction = Vector3.left;
+						break;
+						
+					case "right":
+						Direction = Vector3.right;
+						break;
+						
+					case "forward":
+						Direction = Vector3.forward;
+						break;
+						
+					case "back":
+					case "backwards":
+						Direction = Vector3.back;
+						break;
 				}
 			}
 
 			if (Direction == Vector3.right || Direction == Vector3.left)
-				obj.GetComponent<BlockFaceMain> ().ChangeFix (true);
+				obj.GetComponent<BlockFaceMain>().ChangeFix(true);
 			else
-				obj.GetComponent<BlockFaceMain> ().ChangeFix (false);
+				obj.GetComponent<BlockFaceMain>().ChangeFix(false);
 
 			customGravity.Target = obj;
 			AI_LastTarget = obj;
-		} else
-		{
-			/*Item item = obj.GetComponent<Item>();
-			if(item != null)
-			{
-				item.Collected();
-				print("oi");
-			}*/
 		}
     }
 
@@ -119,8 +125,7 @@ public class PlayerMain : MonoBehaviour {
             #region NextCalc
             if (Direction == Vector3.forward)
             {
-				
-                switch (customGravity.target.name)
+		        switch (customGravity.target.name)
                 {
                     case "U":
                         next = "F";
@@ -138,7 +143,6 @@ public class PlayerMain : MonoBehaviour {
             }
             else if (Direction == Vector3.back)
             {
-				Debug.Log("AMOR");
                 switch (customGravity.target.name)
                 {
                     case "U":
