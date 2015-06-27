@@ -6,6 +6,7 @@ public class BlockFaceMain : MonoBehaviour {
     private Vector3 scale;
 	public bool changer = true;
     public string changeDirection = "none";
+    public bool targeted = false;
 
     #region Get/Set
     public string ChangeDirection
@@ -100,32 +101,35 @@ public class BlockFaceMain : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (gameObject.name == "U" && changer || gameObject.name == "D" && changer)
+        if (!targeted)
         {
-            RaycastHit hit;
-            bool anything = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hit, .5f);
-            if (anything && (hit.transform.tag.ToLowerInvariant() != "player" && hit.transform.tag.ToLowerInvariant() != "enemy") || !anything)
+            if (gameObject.name == "U" && changer || gameObject.name == "D" && changer)
             {
-                this.transform.rotation = Quaternion.Euler(this.rotation);
-                this.transform.localScale = this.scale;
-                switch (ChangeDirection.ToLower())
+                RaycastHit hit;
+                bool anything = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hit, .5f);
+                if (anything && (hit.transform.tag.ToLowerInvariant() != "player" && hit.transform.tag.ToLowerInvariant() != "enemy") || !anything)
                 {
-                    case "forward":
-                        ChangeDirection = "Right";
-                        break;
-                    case "right":
-                        ChangeDirection = "Backwards";
-                        break;
-                    case "backwards":
-                    case "back":
-                        ChangeDirection = "Left";
-                        break;
-                    case "left":
-                        ChangeDirection = "None";
-                        break;
-                    case "none":
-                        ChangeDirection = "Forward";
-                        break;
+                    this.transform.rotation = Quaternion.Euler(this.rotation);
+                    this.transform.localScale = this.scale;
+                    switch (ChangeDirection.ToLower())
+                    {
+                        case "forward":
+                            ChangeDirection = "Right";
+                            break;
+                        case "right":
+                            ChangeDirection = "Backwards";
+                            break;
+                        case "backwards":
+                        case "back":
+                            ChangeDirection = "Left";
+                            break;
+                        case "left":
+                            ChangeDirection = "None";
+                            break;
+                        case "none":
+                            ChangeDirection = "Forward";
+                            break;
+                    }
                 }
             }
         }

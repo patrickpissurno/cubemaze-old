@@ -119,7 +119,10 @@ public class EnemyScoutMain : MonoBehaviour {
 				obj.GetComponent<BlockFaceMain>().ChangeFix(false);
 			
 			customGravity.Target = obj;
+            if(AI_LastTarget != null)
+                AI_LastTarget.GetComponent<BlockFaceMain>().targeted = false;
 			AI_LastTarget = obj;
+            bf.targeted = true;
 		}
 
 	}

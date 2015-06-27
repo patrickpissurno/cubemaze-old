@@ -92,6 +92,9 @@ public class PlayerMain : MonoBehaviour {
 				obj.GetComponent<BlockFaceMain>().ChangeFix(false);
 
 			customGravity.Target = obj;
+            if (AI_LastTarget != null)
+                AI_LastTarget.GetComponent<BlockFaceMain>().targeted = false;
+            bf.targeted = true;
 			AI_LastTarget = obj;
 		} else
 		{
