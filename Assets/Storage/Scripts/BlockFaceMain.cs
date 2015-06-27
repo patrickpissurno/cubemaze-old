@@ -102,7 +102,9 @@ public class BlockFaceMain : MonoBehaviour {
     {
         if (gameObject.name == "U" && changer || gameObject.name == "D" && changer)
         {
-            if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), .5f))
+            RaycastHit hit;
+            bool anything = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hit, .5f);
+            if (anything && (hit.transform.tag.ToLowerInvariant() != "player" && hit.transform.tag.ToLowerInvariant() != "enemy") || !anything)
             {
                 this.transform.rotation = Quaternion.Euler(this.rotation);
                 this.transform.localScale = this.scale;
